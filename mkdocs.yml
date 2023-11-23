@@ -1,5 +1,5 @@
 site_name: Hepapi RKE2-Ansible
-repo_url: https://github.com/hepapi/rke2-ansible
+repo_url: https://github.com/hepapi/rke2-ansible/tree/hepapi
 repo_name: hepapi/rke2-ansible
 
 nav:
