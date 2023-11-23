@@ -1,16 +1,20 @@
 ---
 
 - name: Populate service facts
+  # fetch started/stopped services on each host
   ansible.builtin.service_facts: {}
 
 - name: Gather the package facts
+  # adapts to the package manager installed on each host
   ansible.builtin.package_facts:
     manager: auto
 
 - name: Has rke2 been installed already
   ansible.builtin.include_tasks: previous_install.yml
 
+
 - name: Include images_tarball_install.yml
+  # TODO: is this for airgap installs? should we disable it?
   ansible.builtin.include_tasks: images_tarball_install.yml
 
 - name: "Check for binary tarball in tarball_install/rke2.linux-amd64.tar.gz"
@@ -22,8 +26,10 @@
 
 - name: Include calculate_rke2_version.yml
   ansible.builtin.include_tasks: calculate_rke2_version.yml
+  # if the rke2.linux-amd64.tar.gz exists, calculate the version
   when: not rke2_binary_tarball_check.stat.exists
 
+# SLES = SUSE Linux Enterprise Server
 - name: SLES/Ubuntu/Tarball Installation
   ansible.builtin.include_tasks: tarball_install.yml
   when:
@@ -33,6 +39,7 @@
       rke2_binary_tarball_check.stat.exists )
 
 - name: RHEL/CentOS Installation
+  # RKE2 can be installed with rpm packages on Redhat/CentOS  
   when:
     - ansible_os_family == 'RedHat' or ansible_os_family == 'Rocky'
     - not rke2_binary_tarball_check.stat.exists

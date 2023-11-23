@@ -1,0 +1,2 @@
+- airgap installation is optional. You just need to provide the `rke2-images.linux-amd64.tar.gz` and `rke2.linux-amd64.tar.gz` files in the correct folder.
+- 
